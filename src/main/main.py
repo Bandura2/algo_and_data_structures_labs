@@ -1,34 +1,17 @@
-def is_monotonous(array):
-    n = len(array)
+def calculate_width_board(n, w, h):
 
-    if n < 1:
-        return False
+    if n < 1 or w < 1 or h < 1 or n >= 1012 or w >= 109 or h >= 109 or w == h:
+        return -1, -1
 
-    if n == 1:
-        return True
+    left = 1
+    right = max(w, h) * n
 
-    i = 0
-    while array[i] == array[i + 1] and i < n:
-        i += 1
-        n -= 1
+    while left != right:
+        temp = (left + right) // 2
 
-    if array[i] < array[i + 1]:
-        for _ in range(n - 2):
-            i += 1
-            if array[i] < array[i + 1]:
-                pass
-            elif array[i] == array[i + 1]:
-                n -= 1
-            else:
-                return False
+        if ((temp // w) * (temp // h)) >= n:
+            right = temp
+        else:
+            left = temp + 1
 
-    elif array[i] > array[i + 1]:
-        for _ in range(n - 2):
-            i += 1
-            if array[i] > array[i + 1]:
-                pass
-            elif array[i] == array[i + 1]:
-                n -= 1
-            else:
-                return False
-    return True
+    return left

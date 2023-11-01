@@ -1,74 +1,75 @@
-class BinaryTree:
-
-    def __init__(self, value, left=None, right=None):
-        self.value = value
-        self.left = left
-        self.right = right
+"""
+Module fourth alo lab
+"""
+import collections
 
 
-def is_tree_balanced(node: BinaryTree) -> bool:
-    return tree_height(node) != -1
+def count_islands(map_islands):
+    """
+    Function to count number of islands in map
+    :param map_islands:  matrix of islands
+    :return: number islands
+    """
 
-
-def tree_height(current_node: BinaryTree):
-    if current_node is None:
+    if not map_islands:
         return 0
 
-    left_subtree_height = tree_height(current_node.left)
-    if left_subtree_height == -1:
-        return -1
+    rows = len(map_islands)
+    cols = len(map_islands[0])
+    num_islands_in_map = 0
+    visited_elems = set()
 
-    right_subtree_height = tree_height(current_node.right)
-    if right_subtree_height == -1:
-        return -1
+    def bfs(start_row, start_col):
+        queue = collections.deque()
+        visited_elems.add((start_row, start_col))
+        queue.append((start_row, start_col))
 
-    if abs(left_subtree_height - right_subtree_height) > 1:
-        return -1
+        while queue:
+            directions = [[-1, -1], [-1, 0], [-1, 1],
+                          [0, -1], [0, 1],
+                          [1, -1], [1, 0], [1, 1]]
+            row, col = queue.pop()
+            for d_row, d_col in directions:
+                if row + d_row in range(rows) and \
+                        col + d_col in range(cols) and \
+                        map_islands[row + d_row][col + d_col] == 1 and \
+                        (row + d_row, col + d_col) not in visited_elems:
+                    queue.append((row + d_row, col + d_col))
+                    visited_elems.add((row + d_row, col + d_col))
 
-    return max(left_subtree_height, right_subtree_height) + 1
+    for i in range(rows):
+        for j in range(cols):
+            if map_islands[i][j] == 1 and (i, j) not in visited_elems:
+                bfs(i, j)
+                num_islands_in_map += 1
 
-
-# def is_tree_balanced(node: BinaryTree):
-#
-#     if node.left is None and node.right is None:
-#         return True
-#     elif node.left is None or node.right is None:
-#         return False
-#     else:
-#         is_left_tree_balanced = is_tree_balanced(node.left)
-#         is_right_tree_balanced = is_tree_balanced(node.right)
-#
-#     if is_left_tree_balanced and is_right_tree_balanced:
-#         return True
-#     elif is_left_tree_balanced or is_right_tree_balanced:
-#         return False
-#     else:
-#         return False
+    return num_islands_in_map
 
 
-# left_root = BinaryTree(1)
-# left_root.left = BinaryTree(0)
-# left_root.right = BinaryTree(2)
-#
-# right_root = BinaryTree(5)
-# right_root.left = BinaryTree(4)
-# right_root.right = BinaryTree(6)
-# right_root.right.right = BinaryTree(7)
-#
-# main_root = BinaryTree(3)
-# main_root.left = left_root
-# main_root.right = right_root
-#
-# print(f"Is binary tree balanced: {is_tree_balanced(main_root)}")
-#
-#
-# def print_binary_tree(node: BinaryTree):
-#     if node.left is not None:
-#         print_binary_tree(node.left)
-#
-#     print(f"Elem {node.value}")
-#     if node.right is not None:
-#         print_binary_tree(node.right)
-#
-#
-# print_binary_tree(main_root)
+if __name__ == "__main__":
+    # map_to_count_islands = [
+    #     ["0",  1,   1,  "0", "0", "0", "0",  1,   1,  "0"],
+    #     ["0",  1,   1,   1,   1,  "0", "0", "0",  1,   1 ],
+    #     [ 1,   1,  "0", "0", "0", "0", "0", "0",  1,   1 ],
+    #     [ 1,  "0", "0", "0", "0",  1,  "0", "0", "0", "0"],
+    #     ["0", "0",  1,  "0", "0",  1,  "0", "0", "0",  1 ],
+    #     [ 1,  "0", "0", "0", "0", "0", "0", "0", "0",  1 ],
+    #     [ 1,   1,   1,   1,  "0",  1,   1,   1,   1,   1 ],
+    #     [ 1,   1,   1,   1,  "0",  1,   1,   1,   1,  "0"],
+    #     ["0",  1,   1,   1,  "0", "0", "0", "0",  1,   1 ],
+    #     ["0", "0", "0", "0", "0",  1,  "0", "0", "0", "0"]
+    # ]
+    map_to_count_islands = [
+        [0, 1, 1, 0, 0, 0, 0, 1, 1, 0],
+        [0, 1, 1, 1, 1, 0, 0, 0, 1, 1],
+        [1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
+        [1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 1, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+        [0, 1, 1, 1, 0, 0, 0, 0, 1, 1],
+        [0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+    ]
+
+    print(count_islands(map_to_count_islands))

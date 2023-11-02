@@ -1,5 +1,5 @@
 """
-Module fourth alo lab
+Module fourth algo lab
 """
 import collections
 
@@ -25,15 +25,30 @@ def count_islands(map_islands):
         queue.append((start_row, start_col))
 
         while queue:
-            directions = [[-1, -1], [-1, 0], [-1, 1],
-                          [0, -1], [0, 1],
-                          [1, -1], [1, 0], [1, 1]]
-            row, col = queue.pop()
+            # Directions:
+            #     X  X   X
+            #      \ | /
+            #   X <- 1 -> X
+            #      / | \
+            #     X  X  X
+            directions = [
+                [-1, -1],
+                [-1, 0],
+                [-1, 1],
+                [0, -1],
+                [0, 1],
+                [1, -1],
+                [1, 0],
+                [1, 1],
+            ]
+            row, col = queue.popleft()
             for d_row, d_col in directions:
-                if row + d_row in range(rows) and \
-                        col + d_col in range(cols) and \
-                        map_islands[row + d_row][col + d_col] == 1 and \
-                        (row + d_row, col + d_col) not in visited_elems:
+                if (
+                    row + d_row in range(rows)
+                    and col + d_col in range(cols)
+                    and map_islands[row + d_row][col + d_col] == 1
+                    and (row + d_row, col + d_col) not in visited_elems
+                ):
                     queue.append((row + d_row, col + d_col))
                     visited_elems.add((row + d_row, col + d_col))
 
@@ -47,7 +62,7 @@ def count_islands(map_islands):
 
 
 if __name__ == "__main__":
-    # map_to_count_islands = [
+    # beautiful_map_to_count_islands = [
     #     ["0",  1,   1,  "0", "0", "0", "0",  1,   1,  "0"],
     #     ["0",  1,   1,   1,   1,  "0", "0", "0",  1,   1 ],
     #     [ 1,   1,  "0", "0", "0", "0", "0", "0",  1,   1 ],
@@ -59,6 +74,7 @@ if __name__ == "__main__":
     #     ["0",  1,   1,   1,  "0", "0", "0", "0",  1,   1 ],
     #     ["0", "0", "0", "0", "0",  1,  "0", "0", "0", "0"]
     # ]
+
     map_to_count_islands = [
         [0, 1, 1, 0, 0, 0, 0, 1, 1, 0],
         [0, 1, 1, 1, 1, 0, 0, 0, 1, 1],
@@ -69,7 +85,7 @@ if __name__ == "__main__":
         [1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 0, 1, 1, 1, 1, 0],
         [0, 1, 1, 1, 0, 0, 0, 0, 1, 1],
-        [0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+        [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
     ]
 
     print(count_islands(map_to_count_islands))

@@ -1,25 +1,24 @@
 """
 Module fourth algo lab
 """
-import collections
 
 
 def count_islands(map_islands):
     """
     Function to count number of islands in map
     :param map_islands:  matrix of islands
-    # map_islands = [
-    #     ["0",  1,   1,  "0", "0", "0", "0",  1,   1,  "0"],
-    #     ["0",  1,   1,   1,   1,  "0", "0", "0",  1,   1 ],
-    #     [ 1,   1,  "0", "0", "0", "0", "0", "0",  1,   1 ],
-    #     [ 1,  "0", "0", "0", "0",  1,  "0", "0", "0", "0"],
-    #     ["0", "0",  1,  "0", "0",  1,  "0", "0", "0",  1 ],
-    #     [ 1,  "0", "0", "0", "0", "0", "0", "0", "0",  1 ],
-    #     [ 1,   1,   1,   1,  "0",  1,   1,   1,   1,   1 ],
-    #     [ 1,   1,   1,   1,  "0",  1,   1,   1,   1,  "0"],
-    #     ["0",  1,   1,   1,  "0", "0", "0", "0",  1,   1 ],
-    #     ["0", "0", "0", "0", "0",  1,  "0", "0", "0", "0"]
-    # ]
+    typical_map_islands = [
+        ["0",  1,   1,  "0", "0", "0", "0",  1,   1,  "0"],
+        ["0",  1,   1,   1,   1,  "0", "0", "0",  1,   1 ],
+        [ 1,   1,  "0", "0", "0", "0", "0", "0",  1,   1 ],
+        [ 1,  "0", "0", "0", "0",  1,  "0", "0", "0", "0"],
+        ["0", "0",  1,  "0", "0",  1,  "0", "0", "0",  1 ],
+        [ 1,  "0", "0", "0", "0", "0", "0", "0", "0",  1 ],
+        [ 1,   1,   1,   1,  "0",  1,   1,   1,   1,   1 ],
+        [ 1,   1,   1,   1,  "0",  1,   1,   1,   1,  "0"],
+        ["0",  1,   1,   1,  "0", "0", "0", "0",  1,   1 ],
+        ["0", "0", "0", "0", "0",  1,  "0", "0", "0", "0"]
+    ]
     :return: number islands
     """
 
@@ -32,7 +31,7 @@ def count_islands(map_islands):
     visited_elems = set()
 
     def bfs(start_row, start_col):
-        queue = collections.deque()
+        queue = []
         visited_elems.add((start_row, start_col))
         queue.append((start_row, start_col))
 
@@ -53,7 +52,7 @@ def count_islands(map_islands):
                 [1, 0],
                 [1, 1],
             ]
-            row, col = queue.popleft()
+            row, col = queue.pop(0)
             for d_row, d_col in directions:
                 if (
                     row + d_row in range(rows)
@@ -71,4 +70,3 @@ def count_islands(map_islands):
                 num_islands_in_map += 1
 
     return num_islands_in_map
-
